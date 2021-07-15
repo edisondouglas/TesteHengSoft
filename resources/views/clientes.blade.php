@@ -2,7 +2,7 @@
 @section('content')
     <div class="container">
         @include('mensagem')
-        <a href="adicionar" role="button" class="btn btn-success mb-4 float-right">Adicionar Cliente</a>
+        <a href="adicionar" role="button" class="btn btn-success mb-4">Adicionar Cliente</a>
         <div class="card">
             <div class="card-header ">
                 <h5 class="float-left">Lista de clientes</h5>
@@ -32,7 +32,7 @@
                             <td style="width: 12%">
                                 <a href="editar/{{$cliente->id}}" role="button"
                                    class="btn btn-sm btn-secondary">Editar</a>
-                                <button class="excluir btn btn-danger btn-sm ml-1" data-toggle="modal" data-id="{{$cliente->id}}" data-target="#exampleModal2">Excluir</button>
+                                <button class="btn btn-danger btn-sm ml-1 buttonDelete" onclick="openModalDelete({{$cliente->id}})" data-toggle="modal" data-target="#exampleModal2">Excluir</button>
                             </td>
                         </tr>
                     @endforeach
@@ -44,36 +44,42 @@
             </div>
         </div>
     </div>
-    <script>
-        $(function () {
-            $('.excluir').on('click', function(){
-                var id = $(this).data('id'); // vamos buscar o valor do atributo data-id
-                $('a.concluir-yes').attr('href', '/deletar/' +id); // mudar dinamicamente o link, href do botão confirmar da modal
-                $('h5.texto').text('Realmente deseja excluir o cliente '+id+' ?');
-                $('#mymodal2').modal('show'); // modal aparece
-            });
-        });
-    </script>
 
     <div class="modal fade" id="mymodal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Concluir</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel2">Confirmar exclusão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h5 class="texto"> </h5>
+                    <h6 id="textoModal"> </h6>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                    <a href="#"
-                       class="btn btn-success ml-1 concluir-yes">Confirmar</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <a href="#" type="button" class="btn btn-primary" id="yes">Confirmar</a>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function openModalDelete(id) {
+            const modal = new bootstrap.Modal(document.getElementById('mymodal2'), {});
+            document.getElementById('textoModal').innerText = `Realmente deseja excluir o cliente ${id}`
+            document.getElementById('yes').href = `/deletar/${id}`
+            modal.show();
+        }
+    </script>
+
+{{--    <script>--}}
+{{--        $(function () {--}}
+{{--            $('.excluir').on('click', function(){--}}
+{{--                var id = $(this).data('id'); // vamos buscar o valor do atributo data-id--}}
+{{--                $('a.concluir-yes').attr('href', '/deletar/' +id); // mudar dinamicamente o link, href do botão confirmar da modal--}}
+{{--                $('h5.texto').text('Realmente deseja excluir o cliente '+id+' ?');--}}
+{{--                $('#mymodal2').modal('show'); // modal aparece--}}
+{{--            });--}}
+{{--        });--}}
+{{--    </script>--}}
 
 @endsection
