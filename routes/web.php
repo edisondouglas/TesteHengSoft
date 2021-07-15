@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ClienteController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+Route::get('/', [ClienteController::class, 'index'])->name('cliente.lista');
+Route::get('/adicionar', [ClienteController::class, 'create'])->name('cliente.novo');
+Route::post('/store', [ClienteController::class, 'store'])->name('cliente.salvar');
+Route::get('/editar/{cliente}', [ClienteController::class, 'edit'])->name('cliente.editar');
+Route::post('/update/{cliente}', [ClienteController::class, 'update'] )->name('cliente.update');
+Route::get('/deletar/{cliente}', [ClienteController::class, 'destroy'] )->name('cliente.delete');
